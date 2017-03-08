@@ -1,15 +1,16 @@
-resource "google_compute_firewall" "dokonb-fw-public" {
-  name    = "dokonb-fw-public"
-  network = "${google_compute_network.east1-dokonb-public.name}"
+resource "google_compute_firewall" "public" {
+  name    = "public"
+  network = "${google_compute_network.cr460-158000.name}"
   allow {
     protocol = "tcp"
-    ports    = ["80,443,22"]
+    ports    = ["80","443","22"]
   }
+  source_ranges = ["192.168.1.0/24"]
 }
 
-resource "google_compute_firewall" "dokonb-fw-work" {
-  name    = "dokonb-fw-work"
-  network = "${google_compute_network.east1-dokonb-workload.name}"
+resource "google_compute_firewall" "workload" {
+  name    = "workload"
+  network = "${google_compute_network.cr460-158000.name}"
   allow {
     protocol = "tcp"
     ports    = ["22"]
@@ -17,23 +18,23 @@ resource "google_compute_firewall" "dokonb-fw-work" {
       source_ranges = ["192.168.1.0/24"]
 }
 
-resource "google_compute_firewall" "dokonb-fw-backend-side1" {
-  name    = "dokonb-fw-backend-side1"
-  network = "${google_compute_network.east1-dokonb-backend.name}"
+resource "google_compute_firewall" "backend" {
+  name    = "backend"
+  network = "${google_compute_network.cr460-158000.name}"
   allow {
     protocol = "tcp"
-    ports    = ["22,2379,2380"]
+    ports    = ["22","2379","2380"]
   }
 
       source_ranges = ["192.168.1.0/24"]
 }
 
-resource "google_compute_firewall" "dokonb-fw-backend-side2" {
-  name    = "dokonb-fw-backend-side2"
-  network = "${google_compute_network.east1-dokonb-backend.name}"
+resource "google_compute_firewall" "backend2" {
+  name    = "backend2"
+  network = "${google_compute_network.cr460-158000.name}"
   allow {
     protocol = "tcp"
-    ports    = ["22,2379,2380"]
+    ports    = ["22","2379","2380"]
   }
 
       source_ranges = ["172.16.1.0/24"]
